@@ -1,0 +1,106 @@
+Unimallet
+=========
+
+Unimallet is a splintered off Build Tool that was being worked on for another project https://github.com/mallchad/fering.
+
+It was built from  the ground up to be modular and flexible,  to the point where
+it quickly started  to take roots in  lots of other little  projects in scripts,
+but keeping  the various versions  up to date was  tiresome, and I  wasn't quite
+happy with the one other goal I had when developing the tool.
+Extensibility.
+
+The core philosophies are as follows:  
+- Easy to extend
+- Easy to maintain
+- Consistent interface between projects
+- Self-Documenting
+
+Expansion on Core Philosophies
+==============================
+
+## Easy to Extend
+One of the problem  lots of Build Tools, helper scripts  and Build Systems often
+have is that they  are hard to adapt to the problem and  project at hand. One of
+the worst offenses  of this using non-standard programming  languages, where the
+language is  weak in  comparison to  more mainstream  ones, which  also requires
+extra effort on the maintainers to learn.
+
+One of  the programs  with this  is it has  a tenancy  to generate  difficult to
+maintain code, because the maintainers might be unfamiliar with the friendly and
+maintainable ways to write code for that language.
+
+This tool tries to alleviate this problem in a few ways.
+
+First,  we primarily  use Lua.   Lua  has the  advantage of  being an  extremely
+lightweight  language  where the  interpreter  can  be  run  or built  for  many
+operating systems, the  entire toolchain is around 1MB in  size, and the virtual
+machine is  extensible in  C. It's not  a requirement for  this project,  just a
+priamry choice.
+
+Lua also is a well established programming language with relatively powerful and
+predictable  syntax and  language  constructs,  as well  as  having  a good  few
+libraries available  for it through  primarily LuaRocks  (none shall be  used in
+this project for usage friction reasons).
+
+Second,  coding style  and  functions, the  tool is  written  to revolve  around
+command  line options  and variables,  as  oppose to  "programming", the  actual
+robust programming should be  separated out into its own part  of the tool where
+it is  away from  general readers,  and should  the library  should be  build to
+reduce effort of formatting and integration for the script writer.
+
+For example, there are various mechanisms  in place to generate help strings and
+variables  to  be used  as  arguments,  simply by  adding  a  few entries  to  a
+table. This  is simple, and  robust, and leaves  little room for  missing things
+such as documentation.
+
+## Easy to Maintain
+Like the previous comment, the tool is supposed to simplify the usage to writing
+a few  lines off  a template,  rather than searching  documentation for  a magic
+invocation, this also means good templates  and documentation in source, as well
+as safe and protected functions.
+
+A  function like  `unsafe_execute` written,  as per  the rules  of the  library,
+system  commands sent  through  this  command can  only  run  if an  appropriate
+`UNSAFE` global variable is set.
+
+This makes it  easier to text, and debug,  as the action to be  taken is logged,
+rather than explicitly  execute. Likewise, there are also  some helper functions
+like  `TODO()`,  which  exists purely  to  throw  an  error  or warning  with  a
+descriptive string if you have not done what you said you were going to do.
+
+## Consistent Interface to Projects
+When writing  templates and helper functions  and libraries, it is  advisable to
+make each respective bit of code as generic as possible, so it services the most
+projects with  the least  modification. The  point is  not to  have 1  size fits
+all. But rather to  have a kind of API, where a  scripter (even a non-programmer
+like an artists) should be reasonably capable of making a script to do what they
+want, using the same API.
+
+For example
+- build
+- run executable
+- clean
+
+The  above are  examples of  commands consistent  to all  projects, and  usually
+facilitated  by most  build tools,  but not  necessarily consistent  commands or
+behavior. Some  of the included examples  tend to lean towards  deleting any and
+all tracked binary/artifact folders, ignoring the build tools preference.
+
+Also, the build tool is not supposed to be monolithic, it is there to compliment
+any existing tools a project uses, not replace it. Of course this is down to the
+discretion of the maintainer, by design,  but for example, this project will not
+try  to  manually  invoke  executables  for  templates  that  are  designed  for
+pre-existing build systems.
+
+## Self Documenting
+A great focus will be put on building out tools which encourage, or even mandate
+that  any documentation  is written  rather none.  For example,  there exists  a
+library  function   called  `unsafe_execute`  which  mandates   that  an  string
+'operation_description' is passed.
+
+The maintainer is of  course free to ignore such a value  using an empty string,
+but it will make them think twice about not doing so.
+
+There is also  the help system with can generate  simple help documentation from
+the help string passed  with the creation of the argument,  which means that all
+arguments are documented, even if its not useful documentation.

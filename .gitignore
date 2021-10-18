@@ -1,0 +1,23 @@
+
+
+# -- Ignore Everything in Root --
+
+/*
+*/
+
+# -- Whitelist --
+# Add a !<foo> to 'invert' the ignore pattern to effectively whitelist it
+
+# Root
+!.gitignore
+!README
+!HACKING
+!*.md
+# Root Directories
+!src/
+
+# Other
+!src/*.lua
+!*.keep
+
+# -- Blacklist --
